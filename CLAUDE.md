@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Vanilla JavaScript Tetris implementation with no dependencies. The game runs in the browser using HTML5 Canvas for rendering. It's a single-player implementation of classic Tetris with standard mechanics: 7-piece types, wall kicks, scoring, levels that increase in difficulty, ghost piece preview, and game over/pause states.
+Vanilla JavaScript Tetris implementation with no dependencies. The game runs in the browser using HTML5 Canvas for rendering. It's a single-player implementation of classic Tetris with standard mechanics: 7 classic piece types plus a rare 8th "Tuerca" (nut) challenge piece, wall kicks, scoring, levels that increase in difficulty, ghost piece preview, and game over/pause states.
 
 ## Running the Game
 
@@ -37,7 +37,7 @@ Then open `http://localhost:8000` in browser.
 **1. `game.js` (~305 lines)**
 - **Game State**: `board` (2D array), `current` (active piece), `next` (preview piece), `score`, `lines`, `level`, `gameOver`, `paused`
 - **Game Loop**: `requestAnimationFrame`-based loop that accumulates time since last frame and drops pieces when `dropInterval` is exceeded
-- **Board Representation**: `ROWS × COLS` matrix where each cell holds 0 (empty) or 1–7 (piece color index)
+- **Board Representation**: `ROWS × COLS` matrix where each cell holds 0 (empty) or 1–8 (piece color index)
 
 **2. `index.html`**
 - Main `<canvas id="board">` (300×600 px, 10×20 cells at 30px each)
@@ -90,7 +90,8 @@ Collision triggers `lockPiece()`, which merges blocks, clears complete lines, le
 | `COLS` | 10 | Board width in cells |
 | `ROWS` | 20 | Board height in cells |
 | `BLOCK` | 30 | Pixel size of one cell |
-| `COLORS[1..7]` | #4dd0e1, #ffd54f, etc. | Hex colors for I, O, T, S, Z, J, L pieces |
+| `COLORS[1..8]` | #4dd0e1, #ffd54f, etc. | Hex colors for I, O, T, S, Z, J, L pieces, plus 8 = Tuerca (nut) |
+| `NUT_CHANCE` | 0.05 | Probabilidad de que salga la tuerca (rara aparición) |
 | `LINE_SCORES[1..4]` | [0, 100, 300, 500, 800] | Points for clearing 1, 2, 3, or 4 lines (×level) |
 | Initial `dropInterval` | 1000 ms | Starting fall speed |
 
@@ -98,7 +99,7 @@ Collision triggers `lockPiece()`, which merges blocks, clears complete lines, le
 
 ### Piece Definitions (in `PIECES[]`)
 
-Each piece is a 3×3 or 4×4 grid stored as nested arrays. The value in each cell is either 0 (empty) or 1–7 (the piece type and color index). The I-piece is the only 4×4.
+Each piece is a 3×3 or 4×4 grid stored as nested arrays. The value in each cell is either 0 (empty) or 1–8 (the piece type and color index). The I-piece is the only 4×4. Type 8 (Tuerca) is a 3×3 ring with an empty center.
 
 ## Development Notes
 
