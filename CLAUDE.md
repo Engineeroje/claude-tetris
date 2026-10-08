@@ -119,7 +119,7 @@ Each piece is a 3×3 or 4×4 grid stored as nested arrays. The value in each cel
 ## Theme (light/dark)
 
 - Colors in `style.css` are CSS variables on `:root` (dark, default); `[data-theme="light"]` overrides them.
-- `#theme-toggle` (top-right of `.wrapper`) calls `applyTheme()` in `game.js`, which sets `data-theme` on `<html>`, caches canvas colors (`--grid`, `--block-shine`, `--ghost-alpha`) and persists the choice in `localStorage` (`tetris-theme`).
+- `#theme-toggle` (`position: fixed`, top-right of the viewport) calls `applyTheme()` in `game.js`, which sets `data-theme` on `<html>`, caches canvas colors (`--grid`, `--block-shine`, `--ghost-alpha`) and persists the choice in `localStorage` (`tetris-theme`).
 
 ## Controls
 
