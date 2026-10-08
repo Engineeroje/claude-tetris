@@ -39,7 +39,7 @@ jobs:
 
             Tareas:
             1. Labels: ejecuta `gh label list` y elige solo labels que ya existan y sean apropiados (por ejemplo bug, enhancement, question, documentation). Si la información del issue es insuficiente, añade `needs-info`. Aplícalos con `gh issue edit ${{ github.event.issue.number }} --add-label "<labels>"`. Quita labels previos de triage solo si contradicen el análisis actual.
-            2. Diagnóstico: escribe un comentario en español con estas secciones:
+            2. Diagnóstico: escribe un comentario en español, en formato Markdown válido para GitHub (encabezados, listas y bloques de código con su lenguaje), con estas secciones:
                - Resumen del problema o petición
                - Tipo y severidad estimada
                - Causa probable (si es un bug) o análisis de viabilidad (si es una mejora), citando funciones y archivos concretos como collide(), tryRotate(), clearLines() en game.js
