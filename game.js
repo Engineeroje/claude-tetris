@@ -39,6 +39,10 @@ const overlay = document.getElementById('overlay');
 const overlayTitle = document.getElementById('overlay-title');
 const overlayScore = document.getElementById('overlay-score');
 const restartBtn = document.getElementById('restart-btn');
+const themeToggle = document.getElementById('theme-toggle');
+const THEME_KEY = 'tetris-theme';
+
+let gridColor, shineColor, ghostAlpha;
 
 let board, current, next, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
 
@@ -163,13 +167,13 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
   context.fillStyle = color;
   context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
   // highlight
-  context.fillStyle = 'rgba(255,255,255,0.12)';
+  context.fillStyle = shineColor;
   context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
   context.globalAlpha = 1;
 }
 
 function drawGrid() {
-  ctx.strokeStyle = '#22222e';
+  ctx.strokeStyle = gridColor;
   ctx.lineWidth = 0.5;
   for (let c = 1; c < COLS; c++) {
     ctx.beginPath();
@@ -199,7 +203,7 @@ function draw() {
   for (let r = 0; r < current.shape.length; r++)
     for (let c = 0; c < current.shape[r].length; c++)
       if (current.shape[r][c])
-        drawBlock(ctx, current.x + c, gy + r, current.shape[r][c], BLOCK, 0.2);
+        drawBlock(ctx, current.x + c, gy + r, current.shape[r][c], BLOCK, ghostAlpha);
 
   // current piece
   for (let r = 0; r < current.shape.length; r++)
@@ -300,5 +304,33 @@ document.addEventListener('keydown', e => {
 });
 
 restartBtn.addEventListener('click', init);
+
+function applyTheme(theme) {
+  const light = theme === 'light';
+  document.documentElement.dataset.theme = light ? 'light' : 'dark';
+  themeToggle.setAttribute('aria-checked', light);
+  themeToggle.textContent = light ? '☾ Oscuro' : '☀ Claro';
+  themeToggle.setAttribute('aria-label', light ? 'Modo oscuro' : 'Modo claro');
+  const style = getComputedStyle(document.documentElement);
+  gridColor = style.getPropertyValue('--grid').trim();
+  shineColor = style.getPropertyValue('--block-shine').trim();
+  ghostAlpha = parseFloat(style.getPropertyValue('--ghost-alpha'));
+  // redraw so the change shows while paused or after game over
+  if (current) {
+    draw();
+    drawNext();
+  }
+}
+
+themeToggle.addEventListener('click', () => {
+  const theme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+  try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+  applyTheme(theme);
+  themeToggle.blur();
+});
+
+let savedTheme = 'dark';
+try { savedTheme = localStorage.getItem(THEME_KEY) || 'dark'; } catch (e) {}
+applyTheme(savedTheme);
 
 init();
