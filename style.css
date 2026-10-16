@@ -223,3 +223,140 @@ kbd {
 #restart-btn:hover {
   background: var(--accent-hover);
 }
+
+.hidden {
+  display: none !important;
+}
+
+/* ---- Records ---- */
+.record-hint {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+.records-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.records-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.records-list li.rec-empty {
+  justify-content: center;
+  font-family: inherit;
+  color: var(--muted);
+}
+
+.records-list li.rec-new {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 700;
+}
+
+.rec-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rec-score {
+  flex-shrink: 0;
+}
+
+.record-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--controls-text);
+}
+
+.record-stats b {
+  color: var(--accent);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.small-btn {
+  align-self: flex-start;
+  background: var(--panel-bg);
+  color: var(--kbd-text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.small-btn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.overlay-extra {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(240px, 100%);
+}
+
+.overlay-extra .records-list {
+  width: 100%;
+  font-size: 14px;
+}
+
+.record-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.record-form label {
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.record-form-row {
+  display: flex;
+  gap: 6px;
+}
+
+.record-form input {
+  width: 150px;
+  background: var(--panel-bg);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font: inherit;
+  font-size: 14px;
+  user-select: text;
+}
+
+.record-form button {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.record-form button:hover {
+  background: var(--accent-hover);
+}

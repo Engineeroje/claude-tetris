@@ -45,6 +45,7 @@ const THEME_KEY = 'tetris-theme';
 let gridColor, shineColor, ghostAlpha;
 
 let board, current, next, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
+let comboLines, runBestCombo; // combo: líneas limpiadas en piezas consecutivas
 
 function createBoard() {
   return Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
@@ -114,6 +115,7 @@ function clearLines() {
     dropInterval = Math.max(100, 1000 - (level - 1) * 90);
     updateHUD();
   }
+  return cleared;
 }
 
 function ghostY() {
@@ -141,8 +143,13 @@ function softDrop() {
 
 function lockPiece() {
   merge();
-  clearLines();
+  updateCombo(clearLines());
   spawn();
+}
+
+function updateCombo(cleared) {
+  comboLines = cleared ? comboLines + cleared : 0;
+  if (comboLines > runBestCombo) runBestCombo = comboLines;
 }
 
 function spawn() {
@@ -158,6 +165,7 @@ function updateHUD() {
   scoreEl.textContent = score.toLocaleString();
   linesEl.textContent = lines;
   levelEl.textContent = level;
+  refreshRecordHint(gameOver ? 0 : score);
 }
 
 function drawBlock(context, x, y, colorIndex, size, alpha) {
@@ -228,6 +236,7 @@ function endGame() {
   overlayTitle.textContent = 'GAME OVER';
   overlayScore.textContent = `Puntuación: ${score.toLocaleString()}`;
   overlay.classList.remove('hidden');
+  onGameOver(score, lines, runBestCombo);
 }
 
 function togglePause() {
@@ -268,6 +277,9 @@ function init() {
   paused = false;
   gameOver = false;
   dropInterval = 1000;
+  comboLines = 0;
+  runBestCombo = 0;
+  onGameStart();
   dropAccum = 0;
   lastTime = performance.now();
   next = randomPiece();
@@ -279,6 +291,7 @@ function init() {
 }
 
 document.addEventListener('keydown', e => {
+  if (e.target instanceof HTMLInputElement) return; // no disparar controles mientras se escribe el nombre
   if (e.code === 'KeyP') { togglePause(); return; }
   if (paused || gameOver) return;
   switch (e.code) {
