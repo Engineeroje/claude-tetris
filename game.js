@@ -162,14 +162,7 @@ function updateHUD() {
 
 function drawBlock(context, x, y, colorIndex, size, alpha) {
   if (!colorIndex) return;
-  const color = COLORS[colorIndex];
-  context.globalAlpha = alpha ?? 1;
-  context.fillStyle = color;
-  context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
-  // highlight
-  context.fillStyle = shineColor;
-  context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
-  context.globalAlpha = 1;
+  activeSkin.drawBlock(context, x, y, colorIndex, size, alpha);
 }
 
 function drawGrid() {
@@ -332,5 +325,6 @@ themeToggle.addEventListener('click', () => {
 let savedTheme = 'dark';
 try { savedTheme = localStorage.getItem(THEME_KEY) || 'dark'; } catch (e) {}
 applyTheme(savedTheme);
+applySkin(loadSkin());
 
 init();

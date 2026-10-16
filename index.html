@@ -8,7 +8,15 @@
 </head>
 <body>
   <div class="wrapper">
-    <button id="theme-toggle" class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Modo claro" tabindex="-1">☀ Claro</button>
+    <div class="top-controls">
+      <select id="skin-select" class="skin-select" aria-label="Skin de bloques">
+        <option value="retro">Retro</option>
+        <option value="neon">Neon</option>
+        <option value="pastel">Pastel</option>
+        <option value="pixel">Pixel art</option>
+      </select>
+      <button id="theme-toggle" class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Modo claro" tabindex="-1">☀ Claro</button>
+    </div>
     <h1 class="game-title">TETRIS</h1>
     <div class="game-container">
       <canvas id="board" width="300" height="600"></canvas>
@@ -54,6 +62,7 @@
     </div>
   </div>
 
+  <script src="skins.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
