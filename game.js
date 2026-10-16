@@ -286,7 +286,9 @@ function init(lvl = nextStartLevel) {
 }
 
 document.addEventListener('keydown', e => {
-  if ((e.code === 'KeyP' || e.code === 'Escape') && !e.repeat) { togglePause(); return; }
+  // Escape con el desplegable de nivel enfocado lo gestiona el navegador, no el juego
+  const escInSelect = e.code === 'Escape' && e.target && e.target.tagName === 'SELECT';
+  if ((e.code === 'KeyP' || (e.code === 'Escape' && !escInSelect)) && !e.repeat) { togglePause(); return; }
   if (paused || gameOver) {
     if (paused && e.code === 'Space') e.preventDefault(); // evita que Space active el botón enfocado
     return;
